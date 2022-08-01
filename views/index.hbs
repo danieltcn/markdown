@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>App</title>
+  </head>
+  <body>
+    <ul>
+      {{#each message}}
+        <li><a href='{{this.keysWithoutExt}}'>{{this.keysWithoutExt}}</a></li>
+      {{/each}}
+    </ul>
+  </body>
+</html>
