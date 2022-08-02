@@ -7,11 +7,7 @@ import * as matter from 'gray-matter';
 import * as showdown from 'showdown';
 
 @Injectable()
-export class AppService {
-  getHello(): string {
-    return 'Hello World!';
-  }
-
+export class BlogService {
   async getPost(postKC: string) {
     const posts = await this.getPosts();
     const existPost = posts.find(
@@ -35,20 +31,9 @@ export class AppService {
   }
 
   async getPosts() {
-    function removeExtension(filename) {
-      return filename.substring(0, filename.lastIndexOf('.')) || filename;
-    }
-    function kebabCase(str, dir) {
-      return str
-        .replace(dir, '')
-        .replace(/[^a-zA-Z0-9.\- ]/g, '')
-        .toLowerCase()
-        .replace(/\s/g, '-');
-    }
+    const dir = join(__dirname, '../..', 'posts/').replace(/\\/g, '/');
 
-    const dir = join(__dirname, '..', 'posts/').replace(/\\/g, '/');
-
-    const mark = await readMarkdown(join(__dirname, '..', 'posts/*.md'))
+    const mark = await readMarkdown(join(__dirname, '../..', 'posts/*.md'))
       .then(function (data) {
         const keys = Object.keys(data).map((key) => {
           const keysKebab = kebabCase(key, dir);
@@ -63,6 +48,17 @@ export class AppService {
       })
       .catch(console.error);
     return mark;
+
+    function removeExtension(filename) {
+      return filename.substring(0, filename.lastIndexOf('.')) || filename;
+    }
+    function kebabCase(str, dir) {
+      return str
+        .replace(dir, '')
+        .replace(/[^a-zA-Z0-9.\- ]/g, '')
+        .toLowerCase()
+        .replace(/\s/g, '-');
+    }
   }
 
   private kebabCase(str) {
